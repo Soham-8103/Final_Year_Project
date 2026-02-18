@@ -1,0 +1,508 @@
+:root {
+  --color-primary-dark: #1e1e2d; /* Deep Charcoal/Navy */
+  --color-secondary-dark: #27293d; /* Card/Inner background */
+  --color-text-light: #e0e0e0; /* Off-white text for contrast */
+  --color-text-muted: #9fa2b2; /* Muted text for subtitles/placeholders */
+  --color-accent: #007bff; /* Vibrant Blue for buttons/links */
+  --color-accent-hover: #0066cc;
+  --color-shadow-dark: rgba(0, 0, 0, 0.5);
+  --font-family-primary: 'Poppins', sans-serif;
+}
+
+/* --- Global --- */
+body {
+  background-color: var(--color-primary-dark);
+  font-family: var(--font-family-primary);
+  margin: 0;
+  color: var(--color-text-light);
+}
+
+/* --- Dashboard Container --- */
+.dashboard-container {
+  padding: 3rem 2rem;
+  background-color: var(--color-primary-dark);
+  min-height: 100vh;
+}
+
+.dashboard-title {
+  font-size: 2.5rem;
+  text-align: center;
+  color: var(--color-text-light);
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+}
+
+.dashboard-subtitle {
+  text-align: center;
+  color: var(--color-text-muted);
+  margin-bottom: 3rem;
+  font-size: 1.1rem;
+}
+
+/* --- Quick Stats Bar --- */
+.stats-bar {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 3rem;
+  flex-wrap: wrap;
+}
+
+.stat-item {
+  background-color: var(--color-secondary-dark);
+  padding: 1.2rem 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px var(--color-shadow-dark);
+  text-align: center;
+  min-width: 180px;
+  border-left: 3px solid var(--color-accent);
+}
+
+.stat-value {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--color-accent);
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  margin-top: 0.2rem;
+}
+
+/* --- Dashboard Cards --- */
+.dashboard-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.dashboard-card {
+  background: var(--color-secondary-dark);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.7);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.dashboard-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.9), 0 0 10px var(--color-accent);
+}
+
+.card-image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+.dashboard-card:hover .card-image {
+  opacity: 1;
+}
+
+.dashboard-card-content {
+  padding: 1.8rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard-card-content h3 {
+  margin-bottom: 0.5rem;
+  color: var(--color-text-light);
+  font-size: 1.35rem;
+  font-weight: 600;
+}
+
+.dashboard-card-content p {
+  flex: 1;
+  color: var(--color-text-muted);
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+}
+
+.cta-btn {
+  background: var(--color-accent);
+  color: #fff;
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  text-align: center;
+  transition: background 0.3s ease, transform 0.2s;
+  display: inline-block;
+  font-weight: 600;
+  box-shadow: 0 4px 10px rgba(0, 123, 255, 0.4);
+  text-decoration: none;
+}
+
+.cta-btn:hover {
+  background: var(--color-accent-hover);
+  transform: translateY(-2px);
+}
+
+/* --- Highlight Callout --- */
+.highlight-callout {
+  background: linear-gradient(90deg, #0056b3, #007bff);
+  color: var(--color-text-light);
+  padding: 2rem;
+  margin: 4rem auto;
+  max-width: 900px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  text-align: center;
+}
+
+.highlight-callout h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.highlight-callout p {
+  font-size: 1.1rem;
+  color: #f0f0f0;
+  margin-bottom: 1.5rem;
+}
+
+/* --- Today's Problems Section --- */
+.todays-problems {
+  margin-top: 5rem;
+  padding: 3rem 2rem;
+  background: var(--color-secondary-dark);
+  border-radius: 20px;
+  box-shadow: 0 6px 20px var(--color-shadow-dark);
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.todays-problems h2 {
+  font-size: 1.9rem;
+  color: var(--color-text-light);
+  font-weight: 700;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.todays-problems h2::after {
+  content: "";
+  display: block;
+  width: 80px;
+  height: 3px;
+  background: var(--color-accent);
+  margin: 0.8rem auto 0;
+  border-radius: 2px;
+}
+
+.problem-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.8rem;
+  justify-content: center;
+}
+
+.problem-card {
+  background: var(--color-primary-dark);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 14px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+  padding: 1.8rem;
+  text-align: left;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.problem-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.8), 0 0 10px var(--color-accent);
+}
+
+.problem-card h3 {
+  color: var(--color-text-light);
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.8rem;
+}
+
+.problem-card p {
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-bottom: 1.2rem;
+}
+
+.solve-btn {
+  background: var(--color-accent);
+  color: #fff;
+  padding: 0.7rem 1.4rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: background 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+.solve-btn:hover {
+  background: var(--color-accent-hover);
+  transform: translateY(-2px);
+}
+
+.solve-btn:active {
+  transform: translateY(0);
+}
+
+/* --- About Section --- */
+.about-section {
+  margin: 4rem auto;
+  max-width: 800px;
+  text-align: center;
+  padding: 3rem;
+  background: var(--color-secondary-dark);
+  border-radius: 20px;
+  box-shadow: 0 6px 16px var(--color-shadow-dark);
+}
+
+.about-section h2 {
+  margin-bottom: 1rem;
+  font-size: 1.8rem;
+  color: var(--color-text-light);
+}
+
+.about-section p {
+  color: var(--color-text-muted);
+  line-height: 1.7;
+  font-size: 1.05rem;
+}
+
+/* --- Footer --- */
+.footer {
+  margin-top: 5rem;
+  padding: 2rem;
+  background: #151520;
+  text-align: center;
+  border-radius: 0;
+}
+
+.footer p {
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+  margin-bottom: 0.8rem;
+}
+
+.footer-socials a {
+  color: var(--color-accent);
+  margin: 0 0.8rem;
+  font-size: 1.5rem;
+  transition: color 0.3s ease;
+}
+
+.footer-socials a:hover {
+  color: var(--color-text-light);
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: 2rem 1rem;
+  }
+
+  .stats-bar {
+    gap: 1rem;
+  }
+
+  .stat-item {
+    min-width: 120px;
+    padding: 1rem;
+  }
+
+  .dashboard-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .todays-problems {
+    padding: 2rem 1rem;
+  }
+
+  .problem-card {
+    padding: 1.5rem;
+  }
+}
+.student-dashboard {
+  background: var(--color-secondary-dark);
+  padding: 2rem;
+  border-radius: 20px;
+  margin-bottom: 3rem;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+}
+
+.score-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.score-card {
+  background: #1f2235;
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s ease;
+}
+
+.score-card:hover {
+  transform: translateY(-6px);
+}
+
+.score-card h3 {
+  color: var(--color-accent);
+  margin-bottom: 0.5rem;
+}
+
+.score-value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--color-text-light);
+}
+
+.score-note {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.chart-card {
+  background: #1f2235;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+}
+
+.chart-title {
+  color: var(--color-accent);
+  text-align: center;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+/* === Performance Dashboard Section === */
+.performance-dashboard {
+  margin: 3rem auto;
+  background-color: var(--color-secondary-dark);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+}
+
+/* Score cards (Daily Progress, etc.) */
+.score-cards {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  margin-bottom: 2.5rem;
+}
+
+.score-card {
+  background-color: var(--color-primary-dark);
+  color: var(--color-text-light);
+  border-radius: 14px;
+  padding: 1.8rem 2rem;
+  text-align: center;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6);
+  width: 200px;
+  border-left: 4px solid var(--color-accent);
+  transition: all 0.3s ease;
+}
+
+.score-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 25px rgba(0, 123, 255, 0.3);
+}
+
+.score-icon {
+  font-size: 2.2rem;
+  color: var(--color-accent);
+  margin-bottom: 0.8rem;
+}
+
+.score-card h3 {
+  font-size: 1.1rem;
+  color: var(--color-text-light);
+  margin-bottom: 0.4rem;
+}
+
+.score-card p {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--color-accent);
+}
+
+/* Chart Container */
+.charts-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 2rem;
+}
+
+.chart-box {
+  background-color: var(--color-primary-dark);
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+  color: var(--color-text-light);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.chart-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 123, 255, 0.3);
+}
+
+.chart-box h3 {
+  text-align: center;
+  font-size: 1.2rem;
+  color: var(--color-text-light);
+  margin-bottom: 1rem;
+  letter-spacing: 0.5px;
+}
+
+/* === Recharts Text Visibility Fix === */
+.recharts-cartesian-grid line {
+  stroke: rgba(255, 255, 255, 0.15);
+}
+
+.recharts-xAxis text,
+.recharts-yAxis text,
+.recharts-tooltip-label,
+.recharts-legend-item-text {
+  fill: #f5f5f5 !important; /* bright white text */
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.recharts-tooltip-wrapper {
+  background-color: rgba(20, 20, 30, 0.9) !important;
+  color: #fff !important;
+  border-radius: 8px;
+  padding: 4px 8px;
+}
+
+/* Pie Chart label text fix */
+.recharts-pie-label-text {
+  fill: #f5f5f5 !important;
+  font-weight: 600;
+}

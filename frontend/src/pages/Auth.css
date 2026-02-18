@@ -1,0 +1,204 @@
+/* --- Component Variables (Local Scope) --- */
+.auth-container {
+  /* Colors - Consistent with Login.css */
+  --color-primary-dark: #1e1e2d; /* Deep Charcoal/Navy */
+  --color-secondary-dark: #27293d; /* Card/Inner background */
+  --color-text-light: #e0e0e0; /* Off-white text for contrast */
+  --color-text-muted: #9fa2b2; /* Muted text for subtitles/placeholders */
+  --color-accent: #007bff; /* Vibrant Blue for buttons/links/icons */
+  --color-accent-hover: #0066cc;
+  --color-error: #dc3545;
+  --font-family-primary: 'Poppins', sans-serif;
+}
+
+/* --- Layout: Two-Column Split --- */
+.auth-container {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--color-primary-dark);
+  font-family: var(--font-family-primary);
+  overflow-x: hidden;
+}
+
+/* --- Left Section (Features/Illustration) --- */
+.auth-left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* Adjusting alignment and padding to ensure content fits */
+  justify-content: flex-start;
+  padding: 40px;
+  padding-top: 5vh; /* Reduced top padding */
+  padding-bottom: 40px;
+  min-width: 400px;
+  text-align: center;
+  background-color: var(--color-secondary-dark);
+  color: var(--color-text-light);
+}
+
+.auth-left .illustration {
+  max-width: 80%;
+  /* CRITICAL FIX: Reduced max height to prevent feature list cutoff */
+  max-height: 40vh;
+  height: auto;
+  margin-bottom: 20px; /* Slightly reduced margin */
+}
+
+.auth-left h2 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: var(--color-accent);
+}
+
+.auth-left p {
+  color: var(--color-text-muted);
+  max-width: 450px;
+  line-height: 1.6;
+  margin-bottom: 30px;
+}
+
+/* Feature List Styling (Compacted) */
+.feature-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px; /* Reduced gap */
+  width: 100%;
+  max-width: 400px;
+  text-align: left;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  color: var(--color-text-light);
+  font-size: 1rem;
+  padding: 8px; /* Reduced padding */
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  background-color: #2b2e45;
+}
+
+.feature-icon {
+  color: var(--color-accent);
+  font-size: 1.25rem;
+  margin-right: 15px;
+}
+
+/* --- Right Section (Signup Form) --- */
+.auth-right {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 400px;
+  color: var(--color-text-light);
+}
+
+.auth-card h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 30px;
+}
+
+/* --- Form Elements --- */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+input {
+  padding: 15px;
+  border: 1px solid #33364f;
+  border-radius: 8px;
+  background-color: #33364f;
+  color: var(--color-text-light);
+  font-size: 1rem;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input::placeholder {
+  color: var(--color-text-muted);
+}
+
+input:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.3);
+}
+
+.auth-btn {
+  padding: 15px;
+  background-color: var(--color-accent);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  box-shadow: 0 4px 10px rgba(0, 123, 255, 0.4);
+}
+
+.auth-btn:hover {
+  background-color: var(--color-accent-hover);
+  transform: translateY(-2px);
+}
+
+/* --- Error & Switch Link --- */
+.auth-error {
+  background-color: rgba(220, 53, 69, 0.15);
+  color: var(--color-error);
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  border: 1px solid var(--color-error);
+}
+
+.switch-auth {
+  margin-top: 25px;
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+.switch-auth a {
+  color: var(--color-accent);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s;
+}
+
+.switch-auth a:hover {
+  color: var(--color-text-light);
+  text-decoration: underline;
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 992px) {
+  .auth-container {
+    flex-direction: column;
+  }
+
+  .auth-left {
+    min-height: auto;
+    padding: 40px 20px;
+    order: 2; /* Move features section below the form on mobile */
+  }
+  
+  .auth-right {
+    min-height: 50vh;
+    padding: 40px 20px;
+    order: 1; /* Keep the form visible first */
+  }
+
+  .auth-left .illustration {
+    display: none; /* Hide illustration on mobile for space */
+  }
+}

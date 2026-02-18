@@ -1,0 +1,478 @@
+/* --- Global Variables (Consistent with App Theme) --- */
+:root {
+  --color-primary-dark: #1e1e2d; /* Main Background */
+  --color-secondary-dark: #27293d; /* Card Background */
+  --color-input-dark: #33364f; /* Input/Select Background */
+  --color-text-light: #e0e0e0; /* Off-white text */
+  --color-text-muted: #9fa2b2; /* Muted text */
+  --color-accent: #007bff; /* Vibrant Blue */
+  --color-accent-hover: #0066cc;
+  --color-success: #28a745;
+  --color-error: #dc3545;
+  --font-family-primary: 'Poppins', sans-serif;
+}
+
+/* --- Base Container --- */
+.mq-root {
+  min-height: calc(100vh - 60px); 
+  background-color: var(--color-primary-dark);
+  color: var(--color-text-light);
+  font-family: var(--font-family-primary);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem 1rem;
+}
+
+/* --- General Card Styling (Setup, Start, Result) --- */
+.mq-card {
+  background-color: var(--color-secondary-dark);
+  border-radius: 12px;
+  padding: 3rem;
+  width: 100%;
+  max-width: 600px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* --- Stage Transitions --- */
+.mq-animate-in {
+  animation: fadeIn 0.5s ease-out;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Headings and Subtext --- */
+.mq-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--color-accent);
+  margin-bottom: 0.5rem;
+}
+
+.mq-sub {
+  color: var(--color-text-muted);
+  font-size: 1rem;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--color-input-dark);
+  padding-bottom: 1rem;
+}
+
+/* --- Row Structure for Inputs --- */
+.mq-row {
+  margin-bottom: 1.5rem;
+}
+
+.mq-row label {
+  display: block;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.8rem;
+  color: var(--color-text-light);
+}
+
+/* --- Pill/Grid Selectors (Domain, Difficulty) --- */
+.mq-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.mq-pill {
+  padding: 0.6rem 1.2rem;
+  border: 1px solid var(--color-input-dark);
+  border-radius: 20px;
+  background-color: var(--color-input-dark);
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+}
+
+.mq-pill:hover {
+  border-color: var(--color-accent-hover);
+  color: var(--color-text-light);
+}
+
+.mq-pill.active {
+  background-color: var(--color-accent);
+  border-color: var(--color-accent);
+  color: white;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.4);
+}
+
+/* --- Toggle Switch (Mode) --- */
+.mq-toggle {
+  display: flex;
+  background-color: var(--color-input-dark);
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--color-input-dark);
+}
+
+.toggle-btn {
+  flex: 1;
+  padding: 0.8rem 1rem;
+  border: none;
+  background-color: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 1rem;
+}
+
+.toggle-btn.selected {
+  background-color: var(--color-accent);
+  color: white;
+  font-weight: 600;
+}
+
+/* --- Input Field (Count) --- */
+.mq-input {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--color-input-dark);
+  border-radius: 8px;
+  background-color: var(--color-input-dark);
+  color: var(--color-text-light);
+  font-size: 1rem;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+
+.mq-input:focus {
+  outline: none;
+  border-color: var(--color-accent);
+}
+
+/* --- Action Buttons (Start, Ghost) --- */
+.mq-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: 2.5rem;
+}
+
+.mq-start {
+  padding: 0.8rem 1.5rem;
+  background-color: var(--color-accent);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s;
+  box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+}
+
+.mq-start:hover:not(:disabled) {
+  background-color: var(--color-accent-hover);
+  transform: translateY(-1px);
+}
+
+.mq-start:disabled {
+  background-color: #4a4a5c;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.mq-ghost {
+  padding: 0.8rem 1.5rem;
+  background-color: transparent;
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-input-dark);
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mq-ghost:hover {
+  color: var(--color-text-light);
+  border-color: var(--color-text-light);
+}
+
+/* --- Setup Summary --- */
+.mq-summary {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 1.5rem;
+    background-color: var(--color-input-dark);
+    border-radius: 8px;
+    margin-top: 1rem;
+    font-size: 1rem;
+}
+.mq-summary strong {
+    color: var(--color-accent);
+    font-weight: 700;
+}
+
+/* ================================================= */
+/* --- Instructions/Pre-Test Modal --- */
+/* ================================================= */
+.mq-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.mq-modal-card {
+    background-color: var(--color-secondary-dark);
+    border-radius: 12px;
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.9);
+}
+
+.mq-modal-card h3 {
+    font-size: 1.8rem;
+    color: var(--color-accent);
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid var(--color-input-dark);
+    padding-bottom: 0.5rem;
+}
+
+.mq-modal-card ul {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 2rem;
+}
+
+.mq-modal-card li {
+    background-color: var(--color-input-dark);
+    padding: 10px 15px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    font-size: 1rem;
+    color: var(--color-text-light);
+    border-left: 4px solid var(--color-accent);
+}
+
+/* ================================================= */
+/* --- Quiz Stage Styling --- */
+/* ================================================= */
+.mq-quiz-card {
+    max-width: 900px;
+    padding: 2.5rem 3rem;
+}
+
+/* --- Top Bar (HUD and Timer) --- */
+.mq-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--color-input-dark);
+}
+
+.mq-hud {
+    display: flex;
+    gap: 20px;
+    font-size: 1.1rem;
+    color: var(--color-text-muted);
+}
+.mq-hud strong {
+    color: var(--color-text-light);
+}
+
+.mq-timer {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--color-error); /* Use red for high urgency */
+    padding: 0.3rem 1rem;
+    background-color: rgba(220, 53, 69, 0.1);
+    border-radius: 6px;
+    border: 1px solid var(--color-error);
+}
+
+/* --- Question Area --- */
+.mq-question-area {
+    min-height: 250px;
+    padding-bottom: 2rem;
+}
+
+.mq-qtitle {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--color-text-light);
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+}
+
+/* --- Options List --- */
+.mq-options {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.mq-option {
+    display: flex;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    background-color: var(--color-input-dark);
+    border-radius: 8px;
+    border: 2px solid var(--color-input-dark);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 1.1rem;
+}
+
+.mq-option:hover {
+    background-color: #3e415a;
+    border-color: var(--color-accent);
+}
+
+.mq-option.selected {
+    background-color: rgba(0, 123, 255, 0.2);
+    border-color: var(--color-accent);
+}
+
+.mq-opt-letter {
+    font-weight: 700;
+    color: var(--color-accent);
+    margin-right: 15px;
+    min-width: 20px;
+}
+
+.mq-opt-text {
+    color: var(--color-text-light);
+}
+
+/* --- Quiz Controls --- */
+.mq-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--color-input-dark);
+    padding-top: 1.5rem;
+}
+
+.mq-progress {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--color-text-light);
+    margin-right: 20px;
+}
+
+.mq-nav-right {
+    display: flex;
+    align-items: center;
+}
+
+.mq-next {
+    padding: 0.8rem 1.5rem;
+    background-color: var(--color-success); /* Use green for next/submit to distinguish */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s, opacity 0.2s;
+}
+
+.mq-next.disabled,
+.mq-next:disabled {
+    background-color: #5a5d6f;
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.mq-quit {
+    padding: 0.8rem 1.5rem;
+    background-color: var(--color-error);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.mq-quit:hover {
+    background-color: #b22736;
+}
+
+.mq-result-card h2 {
+    font-size: 2.2rem;
+    color: var(--color-accent);
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--color-input-dark);
+}
+
+.mq-score {
+    font-size: 1.5rem;
+    color: var(--color-text-light);
+    margin-bottom: 2rem;
+}
+
+.mq-score strong {
+    color: var(--color-success);
+    font-weight: 800;
+}
+
+.mq-result-list {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.mq-result-item {
+    padding: 20px;
+    border-radius: 8px;
+    background-color: var(--color-input-dark);
+    border-left: 5px solid var(--color-accent);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.mq-r-q {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    color: var(--color-text-light);
+}
+
+.mq-r-user, .mq-r-correct {
+    font-size: 0.95rem;
+    margin-bottom: 5px;
+    padding-left: 10px;
+}
+
+.mq-r-user {
+    color: var(--color-error); /* Default to red (incorrect or no answer) */
+}
+
+.mq-r-item:has(.mq-r-correct-match) .mq-r-user {
+    color: var(--color-success); /* If correct, override user answer color */
+}
+
+.mq-r-correct {
+    color: var(--color-success);
+    font-weight: 600;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+.mq-r-expl {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+}

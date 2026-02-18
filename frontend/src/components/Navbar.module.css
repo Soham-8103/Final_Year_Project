@@ -1,0 +1,140 @@
+:root {
+  --color-primary-dark: #1e1e2d;
+  --color-navbar-dark-start: #14141f; 
+  --color-navbar-dark-end: #1a1a28;  
+  --color-secondary-dark: #27293d;
+  --color-text-light: #e0e0e0;
+  --color-text-muted: #9fa2b2;
+  --color-accent: #007bff;
+  --color-accent-hover: #00aaff; /* lighter accent for hover */
+  --font-family-primary: 'Poppins', sans-serif;
+}
+
+/* --- Navbar Container with Gradient --- */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 2rem;
+  background: linear-gradient(
+    to bottom,
+    var(--color-navbar-dark-start),
+    var(--color-navbar-dark-end)
+  );
+  color: var(--color-text-light);
+  font-family: var(--font-family-primary);
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.7); /* separates navbar */
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* --- Brand --- */
+.navbarBrand {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-accent);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.navbarBrand:hover {
+  color: var(--color-accent-hover);
+}
+
+/* --- Navbar Left & Right --- */
+.navbarLeft {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.navbarRight {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* --- Username --- */
+.navbarUsername {
+  font-size: 1rem;
+  color: var(--color-text-light);
+}
+
+/* --- User Icon --- */
+.userIcon {
+  width: 36px;
+  height: 36px;
+  background-color: var(--color-secondary-dark);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: var(--color-accent);
+  font-size: 0.9rem;
+  border: 2px solid var(--color-accent);
+  transition: all 0.3s ease;
+}
+
+.userIcon:hover {
+  background-color: var(--color-accent-hover);
+  color: var(--color-text-light);
+  border-color: var(--color-accent-hover);
+  cursor: default;
+}
+
+/* --- Logout Button --- */
+.logoutBtn {
+  padding: 8px 16px;
+  background-color: var(--color-accent);
+  color: var(--color-text-light);
+  border: none;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.logoutBtn:hover {
+  background-color: var(--color-accent-hover);
+  transform: translateY(-2px);
+}
+
+/* --- Responsive Navbar --- */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1rem 1.5rem;
+  }
+
+  .navbarLeft,
+  .navbarRight {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .navbarRight {
+    margin-top: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbarBrand {
+    font-size: 1.3rem;
+  }
+
+  .userIcon {
+    width: 32px;
+    height: 32px;
+    font-size: 0.8rem;
+  }
+
+  .logoutBtn {
+    padding: 6px 12px;
+    font-size: 0.85rem;
+  }
+}

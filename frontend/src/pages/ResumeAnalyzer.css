@@ -1,0 +1,383 @@
+/* --- Global Variables (Consistent with App Theme) --- */
+:root {
+  --color-primary-dark: #1e1e2d; /* Deep Charcoal/Navy (Main Background) */
+  --color-secondary-dark: #27293d; /* Card/Pane Background */
+  --color-text-light: #e0e0e0; /* Off-white text */
+  --color-text-muted: #9fa2b2; /* Muted/Subtle text */
+  --color-accent: #007bff; /* Vibrant Blue */
+  --color-accent-hover: #0066cc;
+  --color-success: #28a745; /* Green for checkmarks/success */
+  --color-shadow-dark: rgba(0, 0, 0, 0.7);
+  --font-family-primary: 'Poppins', sans-serif;
+}
+
+/* --- Main Container & Layout --- */
+.resume-analyzer-container {
+  display: flex;
+  min-height: calc(100vh - 60px); /* Adjust for fixed Navbar height */
+  background-color: var(--color-primary-dark);
+  color: var(--color-text-light);
+  font-family: var(--font-family-primary);
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.2); /* Inner shadow for depth */
+}
+
+/* --- Left Pane (Input/Control) --- */
+.left-pane {
+  flex: 0 0 450px; /* Fixed width for the control panel */
+  background-color: var(--color-secondary-dark);
+  padding: 3rem;
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 4px 0 15px rgba(0, 0, 0, 0.5); /* Shadow separating panes */
+}
+
+.left-pane h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: var(--color-accent);
+}
+
+.subtitle {
+  color: var(--color-text-muted);
+  margin-bottom: 3rem;
+  font-size: 1rem;
+}
+
+.left-pane h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  color: var(--color-text-light);
+}
+
+/* --- Upload Section --- */
+.upload-section p {
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+}
+
+.upload-box {
+  background-color: #33364f; /* Slightly darker than pane for subtle elevation */
+  border: 2px dashed var(--color-text-muted);
+  border-radius: 12px;
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.upload-box:hover {
+  border-color: var(--color-accent);
+  background-color: #383b54;
+}
+
+.upload-link {
+  color: var(--color-accent);
+  font-weight: 600;
+}
+
+.selected-file {
+  color: var(--color-success) !important;
+  font-weight: 600;
+  margin-top: 10px;
+  margin-bottom: 5px !important;
+}
+
+.file-size {
+    font-size: 0.8rem;
+    color: #5a5d6f !important;
+}
+
+/* --- Target Job Section Input --- */
+.target-job-section input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #33364f;
+  border-radius: 8px;
+  background-color: #33364f;
+  color: var(--color-text-light);
+  font-size: 1rem;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  box-sizing: border-box;
+}
+
+.target-job-section input:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.3);
+}
+
+/* --- Analyze Button --- */
+.analyze-btn {
+  width: 100%;
+  margin-top: 3rem;
+  padding: 1rem;
+  background-color: var(--color-accent);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0, 123, 255, 0.4);
+}
+
+.analyze-btn:hover:not(:disabled) {
+  background-color: var(--color-accent-hover);
+  transform: translateY(-2px);
+}
+
+.analyze-btn:disabled {
+  background-color: #4a4a5c;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.spin-icon {
+  animation: spin 1s linear infinite;
+  margin-right: 8px;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* --- Right Pane (Results/Analysis) --- */
+.right-pane {
+  flex: 1; /* Takes up remaining space */
+  padding: 3rem;
+  overflow-y: auto; /* Allows scrolling if results are long */
+}
+
+.right-pane h2 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
+  color: var(--color-text-light);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 0.5rem;
+}
+
+/* --- Initial Features List --- */
+.features-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 3rem;
+}
+
+.features-list li {
+  font-size: 1.2rem;
+  color: var(--color-text-muted);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  transition: color 0.3s ease;
+}
+
+.check-icon {
+  color: var(--color-success);
+  margin-right: 15px;
+  font-size: 1.2em;
+}
+
+/* --- Loading State --- */
+.loading-section {
+  text-align: center;
+  padding: 5rem 0;
+}
+
+.big-spin-icon {
+  font-size: 3rem;
+  color: var(--color-accent);
+  animation: spin 1.5s linear infinite;
+  margin-bottom: 20px;
+}
+
+.loading-section p {
+  color: var(--color-text-muted);
+  font-size: 1.1rem;
+}
+
+/* --- Analysis Results --- */
+.analysis-results {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.analysis-card {
+  background-color: #33364f; /* Slightly elevated card */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  border-left: 5px solid var(--color-accent);
+  transition: transform 0.2s;
+}
+
+.analysis-card:hover {
+    transform: translateY(-2px);
+}
+
+.analysis-card h4 {
+  font-size: 1.3rem;
+  color: var(--color-text-light);
+  margin-top: 0;
+  margin-bottom: 15px;
+  padding-bottom: 5px;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+}
+
+.analysis-card ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.analysis-card li {
+  color: var(--color-text-muted);
+  margin-bottom: 8px;
+  padding-left: 20px;
+  position: relative;
+  font-size: 0.95rem;
+}
+
+.analysis-card li::before {
+  content: "•";
+  color: var(--color-accent);
+  font-weight: bold;
+  display: inline-block;
+  width: 1em;
+  margin-left: -1em;
+}
+
+.analysis-card p {
+    color: var(--color-text-muted);
+    line-height: 1.6;
+}
+
+/* --- Media Queries --- */
+@media (max-width: 1024px) {
+  .resume-analyzer-container {
+    flex-direction: column;
+  }
+  
+  .left-pane {
+    flex: 1 1 auto;
+    width: auto;
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  }
+}
+
+@media (max-width: 600px) {
+  .left-pane, .right-pane {
+    padding: 2rem 1.5rem;
+  }
+  
+  .left-pane h1 {
+    font-size: 1.8rem;
+  }
+}
+/* --- Progress Bars --- */
+.progress-bar {
+  width: 100%;
+  height: 20px;
+  background-color: #44455c;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 10px;
+  transition: width 0.5s ease;
+}
+
+.analysis-card p {
+  margin-top: 5px;
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+}
+
+/* --- Radial Charts --- */
+.radial-charts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 25px;
+  margin-bottom: 25px;
+}
+
+.radial-chart-card {
+  width: 120px;
+  text-align: center;
+  color: var(--color-text-light);
+}
+
+.radial-chart-card p {
+  margin-top: 10px;
+  font-size: 0.95rem;
+}
+
+/* --- Loading Spinner --- */
+.spin-icon {
+  animation: spin 1s linear infinite;
+  margin-right: 8px;
+}
+
+.big-spin-icon {
+  font-size: 3rem;
+  color: var(--color-accent);
+  animation: spin 1.5s linear infinite;
+  margin-bottom: 20px;
+  display: inline-block;
+}
+.radial-charts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 25px;
+  margin-bottom: 25px;
+}
+
+.radial-chart-card {
+  width: 120px;
+  text-align: center;
+  color: var(--color-text-light);
+}
+
+.radial-chart-card p {
+  margin-top: 10px;
+  font-size: 0.95rem;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.chevron-icon {
+  transition: transform 0.3s ease;
+}
+
+.chevron-icon.rotated {
+  transform: rotate(180deg);
+}
+
+.copy-icon {
+  margin-left: 10px;
+  cursor: pointer;
+  color: var(--color-accent);
+}
+
+.copy-icon:hover {
+  color: var(--color-accent-hover);
+}

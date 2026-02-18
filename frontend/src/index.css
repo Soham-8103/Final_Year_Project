@@ -1,0 +1,67 @@
+/* src/index.css */
+
+/* Global Reset & Font */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  background-color: #f4f6f8;
+  color: #333;
+}
+
+/* Navbar Styling */
+.navbar {
+  background-color: #ffffff !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid #e6e6e6;
+}
+
+.navbar-brand {
+  font-weight: bold;
+  font-size: 1.4rem;
+  color: #0066cc !important;
+}
+
+.nav-link {
+  color: #333 !important;
+  margin-right: 1rem;
+}
+
+.nav-link:hover {
+  color: #0066cc !important;
+}
+
+/* Cards */
+.card {
+  border-radius: 12px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+}
+
+/* Buttons */
+.btn-primary {
+  background-color: #0066cc !important;
+  border-color: #0066cc !important;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+.btn-primary:hover {
+  background-color: #004d99 !important;
+  border-color: #004d99 !important;
+}
+
+/* Forms */
+.form-control {
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  box-shadow: none;
+}
+
+.form-control:focus {
+  border-color: #0066cc;
+  box-shadow: 0 0 4px rgba(0, 102, 204, 0.3);
+}
