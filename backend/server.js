@@ -10,7 +10,7 @@ const authRoutes = require("./routes/authRoutes");
 const resumeRoutes = require("./routes/resumeRoutes");
 const jobRoutes = require("./routes/jobRoutes");
 const interviewRoutes = require("./routes/interviewRoutes");
-const reportRoutes = require("./routes/reportRoutes"); // 🔥 add this
+const reportRoutes = require("./routes/reportRoutes");
 
 const app = express();
 

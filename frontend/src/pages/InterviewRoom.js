@@ -14,99 +14,80 @@ import {
   FaSignOutAlt
 } from "react-icons/fa";
 
+const API = "http://localhost:5000/api/interview";
+
 const InterviewRoom = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
 
-  const [questions, setQuestions] = useState([]);
+  const [questions, setQuestions] = useState(state?.questions || []);
+  const [interviewId] = useState(state?.interviewId || null);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [interviewId, setInterviewId] = useState(null);
   const [isStarted, setIsStarted] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const [transcript, setTranscript] = useState("");
   const [isAISpeaking, setIsAISpeaking] = useState(false);
   const [isDone, setIsDone] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const videoRef = useRef(null);
   const recognitionRef = useRef(null);
   const streamRef = useRef(null);
 
-  // ================= INIT =================
+  // Initialize camera + microphone
   useEffect(() => {
-    let isMounted = true;
-
-    const init = async () => {
+    const initMedia = async () => {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({
-          video: { width: 1280, height: 720 },
+          video: true,
           audio: true
         });
-
-        if (isMounted) {
-          streamRef.current = stream;
-          if (videoRef.current) videoRef.current.srcObject = stream;
-        }
-
-        const res = await axios.post(
-          "http://localhost:5000/api/interview/generate",
-          {
-            domain: state?.domain || "DSA",
-            level: state?.level || "Beginner",
-            userId: "12345"
-          }
-        );
-
-        if (isMounted) {
-          setQuestions(res.data.questions);
-          setInterviewId(res.data.interviewId);
-        }
+        streamRef.current = stream;
+        if (videoRef.current) videoRef.current.srcObject = stream;
       } catch (err) {
-        if (isMounted)
-          setError("Session initialization failed. Check camera/mic permissions.");
-      } finally {
-        if (isMounted) setLoading(false);
+        alert("Camera and microphone access required");
       }
     };
 
-    init();
+    initMedia();
 
     return () => {
-      isMounted = false;
       if (streamRef.current) {
-        streamRef.current.getTracks().forEach((track) => track.stop());
+        streamRef.current.getTracks().forEach((t) => t.stop());
       }
     };
-  }, [state]);
+  }, []);
 
-  // ================= SPEAK =================
+  // Speak text using speech synthesis
   const speak = (text) => {
     if (!text) return;
+
     window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.onstart = () => setIsAISpeaking(true);
-    utterance.onend = () => setIsAISpeaking(false);
-    window.speechSynthesis.speak(utterance);
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.onstart = () => setIsAISpeaking(true);
+    utter.onend = () => setIsAISpeaking(false);
+    window.speechSynthesis.speak(utter);
   };
 
-  // ================= RECORD =================
+  // Start recording user answer
   const startRecording = () => {
     const SpeechRecognition =
       window.SpeechRecognition || window.webkitSpeechRecognition;
+
     if (!SpeechRecognition) {
-      alert("Browser does not support Speech Recognition");
+      alert("Speech recognition not supported in this browser");
       return;
     }
 
     recognitionRef.current = new SpeechRecognition();
     recognitionRef.current.continuous = true;
     recognitionRef.current.interimResults = true;
+    recognitionRef.current.lang = "en-US";
 
-    recognitionRef.current.onresult = (e) => {
+    recognitionRef.current.onresult = (event) => {
       let text = "";
-      for (let i = e.resultIndex; i < e.results.length; i++) {
-        text += e.results[i][0].transcript;
+      for (let i = event.resultIndex; i < event.results.length; i++) {
+        text += event.results[i][0].transcript;
       }
       setTranscript(text);
     };
@@ -115,111 +96,99 @@ const InterviewRoom = () => {
     setIsRecording(true);
   };
 
+  // Stop recording
   const stopRecording = () => {
-    if (recognitionRef.current) recognitionRef.current.stop();
+    recognitionRef.current?.stop();
     setIsRecording(false);
   };
 
-  // ================= NEXT QUESTION =================
+  // Handle next question / finish interview
   const handleNext = async () => {
     stopRecording();
     setLoading(true);
 
     try {
-      await axios.post("http://localhost:5000/api/interview/evaluate", {
+      await axios.post(`${API}/evaluate`, {
         interviewId,
         questionIndex: currentIndex,
-        userAnswer: transcript || "No answer provided."
+        userAnswer: transcript || "No answer"
       });
 
       if (currentIndex < questions.length - 1) {
-        const nextIdx = currentIndex + 1;
-        setCurrentIndex(nextIdx);
+        const next = currentIndex + 1;
+        setCurrentIndex(next);
         setTranscript("");
-        speak(questions[nextIdx]);
+        speak(questions[next]);
       } else {
+        // Mark interview as done and navigate to report
         setIsDone(true);
+
+        // Give a short delay to show "Interview Completed" overlay
+        setTimeout(() => {
+          navigate(`/interview-report/${interviewId}`);
+        }, 1500);
       }
     } catch (err) {
-      setIsDone(true);
-    } finally {
-      setLoading(false);
+      console.error("Evaluation failed:", err);
+      alert("Something went wrong while saving your answer. Navigating to report...");
+      navigate(`/interview-report/${interviewId}`);
     }
+
+    setLoading(false);
   };
 
-  // ================= UI =================
-  if (loading && !isStarted) {
+  if (!questions.length) {
     return (
       <div className="loader-screen">
         <div className="spinner"></div>
-        <p>Summoning your Interviewer...</p>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="error-screen">
-        <h2>{error}</h2>
-        <button onClick={() => navigate(-1)}>Return Home</button>
+        <p>Preparing your interview...</p>
       </div>
     );
   }
 
   return (
     <div className="room-container">
-      {/* NAV BAR */}
       <nav className="room-nav">
         <div className="nav-left">
           <div className="live-indicator">
             <FaCircle className="live-dot" /> LIVE SESSION
           </div>
-          <h2 className="room-title">
-            {state?.domain} <small>{state?.level}</small>
+          <h2>
+            {state?.domain || "Unknown Domain"} <small>{state?.level || ""}</small>
           </h2>
         </div>
-        <div className="nav-right">
-          <button
-            className="end-btn"
-            onClick={() => navigate(`/report/${interviewId}`)}
-          >
-            <FaSignOutAlt /> End Interview
-          </button>
-        </div>
+
+        <button
+          className="end-btn"
+          onClick={() => navigate(`/interview-report/${interviewId}`)}
+        >
+          <FaSignOutAlt /> End
+        </button>
       </nav>
 
-      {/* MAIN CONTENT */}
       <main className="room-content">
         <section className="visual-section">
           <div className="video-wrapper">
             <video ref={videoRef} autoPlay muted playsInline />
-            <div className="video-overlay">User Preview</div>
+            <div className="video-overlay">You</div>
           </div>
 
           <div className={`ai-host-card ${isAISpeaking ? "glow-active" : ""}`}>
-            <div className="avatar-box">
-              <div className="avatar-pulse"></div>
-              <FaRobot size={30} />
-            </div>
-            <div className="ai-info">
-              <h4>AI Lead Interviewer</h4>
-              <p>
-                {isAISpeaking
-                  ? "Speaking..."
-                  : isRecording
-                  ? "Listening..."
-                  : "Waiting..."}
-              </p>
-            </div>
+            <FaRobot size={28} />
+            <p>
+              {isAISpeaking
+                ? "AI speaking..."
+                : isRecording
+                ? "Listening..."
+                : "Waiting"}
+            </p>
           </div>
         </section>
 
-        {/* INTERACTION CONTROLS */}
         <section className="interaction-section">
           {!isStarted ? (
             <div className="welcome-card">
-              <h1>Professional Mock Interview</h1>
-              <p>Ensure your camera/mic is ready. AI interviewer is prepared.</p>
+              <h1>AI Mock Interview</h1>
               <button
                 className="btn-glow-start"
                 onClick={() => {
@@ -232,45 +201,38 @@ const InterviewRoom = () => {
             </div>
           ) : (
             <div className="interview-flow">
-              <div className="progress-bar">
-                <div
-                  className="progress-fill"
-                  style={{
-                    width: `${((currentIndex + 1) / questions.length) * 100}%`
-                  }}
-                ></div>
-              </div>
-
               <div className="question-box">
-                <span className="question-tag">Question {currentIndex + 1}</span>
-                <h3 className="question-text">{questions[currentIndex]}</h3>
+                <span>Question {currentIndex + 1}</span>
+                <h3>{questions[currentIndex]}</h3>
               </div>
 
-              <div className="transcript-container">
-                <label>Real-Time Transcript</label>
-                <div className="transcript-display">
-                  {transcript || <span className="placeholder">Ready for your input...</span>}
-                </div>
+              <div className="transcript-display">
+                {transcript || "Speak your answer..."}
               </div>
 
-              {/* ================= BUTTONS ALWAYS VISIBLE ================= */}
               <div className="controls-footer">
-                <button className="ctrl-btn repeat" onClick={() => speak(questions[currentIndex])} disabled={isAISpeaking}>
-                  <FaRedo /> Repeat Question
+                <button onClick={() => speak(questions[currentIndex])}>
+                  <FaRedo /> Repeat
                 </button>
 
                 {!isRecording ? (
-                  <button className="ctrl-btn record-start" onClick={startRecording} disabled={isAISpeaking}>
-                    <FaMicrophone /> Answer Now
+                  <button onClick={startRecording}>
+                    <FaMicrophone /> Answer
                   </button>
                 ) : (
-                  <button className="ctrl-btn record-stop" onClick={stopRecording}>
-                    <FaStop /> Stop Recording
+                  <button onClick={stopRecording}>
+                    <FaStop /> Stop
                   </button>
                 )}
 
-                <button className="ctrl-btn next" onClick={handleNext} disabled={loading || isAISpeaking}>
-                  {currentIndex === questions.length - 1 ? "Complete Interview" : <><FaArrowRight /> Next</>}
+                <button onClick={handleNext} disabled={loading}>
+                  {currentIndex === questions.length - 1
+                    ? "Finish"
+                    : (
+                      <>
+                        <FaArrowRight /> Next
+                      </>
+                    )}
                 </button>
               </div>
             </div>
@@ -278,15 +240,13 @@ const InterviewRoom = () => {
         </section>
       </main>
 
-      {/* COMPLETION MODAL */}
       {isDone && (
         <div className="final-overlay">
           <div className="final-card">
-            <FaTrophy size={50} className="success-icon" />
-            <h2>Session Completed Successfully!</h2>
-            <p>Your responses have been analyzed. Performance report is ready.</p>
-            <button className="view-report-btn" onClick={() => navigate(`/interview-report/${interviewId}`)}>
-              Open Report
+            <FaTrophy size={50} />
+            <h2>Interview Completed</h2>
+            <button onClick={() => navigate(`/interview-report/${interviewId}`)}>
+              View Report
             </button>
           </div>
         </div>
